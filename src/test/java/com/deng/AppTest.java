@@ -1,4 +1,4 @@
-package com.deng.crawler;
+package com.deng;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

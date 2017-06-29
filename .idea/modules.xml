@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/agent-pool.iml" filepath="$PROJECT_DIR$/agent-pool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/proxy-pool.iml" filepath="$PROJECT_DIR$/proxy-pool.iml" />
     </modules>
   </component>
 </project>
