@@ -65,12 +65,7 @@ public class ProxyEntity {
 
     @Override
     public String toString() {
-        return "ProxyEntity{" +
-                "ip='" + ip + '\'' +
-                ", port=" + port +
-                ", location='" + location + '\'' +
-                ", agentType='" + agentType + '\'' +
-                ", lastValidateTime='" + lastValidateTime + '\'' +
-                '}';
+        return "ProxyEntity{" + "ip='" + ip + '\'' + ", port=" + port + ", location='" + location + '\'' +
+                ", agentType='" + agentType + '\'' + ", lastValidateTime='" + lastValidateTime + '\'' + '}';
     }
 }
