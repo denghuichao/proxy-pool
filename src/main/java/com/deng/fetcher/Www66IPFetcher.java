@@ -48,7 +48,7 @@ public class Www66IPFetcher extends AbstractFetcher<List<ProxyEntity>> {
 
     protected List<ProxyEntity> parseHtml(String html) {
 
-        List<ProxyEntity> res = new ArrayList<ProxyEntity>();
+        List<ProxyEntity> res = new ArrayList<>();
         Document doc = Jsoup.parse(html);
         Elements tables = doc.select("tbody");
 
