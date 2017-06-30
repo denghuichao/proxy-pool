@@ -1,11 +1,11 @@
-package com.deng.fetcher;
+package com.deng.entity;
 
 import java.util.Date;
 
 /**
- * Created by hcdeng on 2017/6/29.
+ * Created by hcdeng on 2017/6/30.
  */
-public class ProxyEntity {
+public abstract class Proxy {
     //ip	端口号	代理位置	代理类型	验证时间
     private String ip;
     private int port;
@@ -13,15 +13,7 @@ public class ProxyEntity {
     private String agentType;
     private Date lastValidateTime;
 
-    public ProxyEntity(String ip, int port, String location, String agentType, Date lastValidateTime) {
-        this.ip = ip;
-        this.port = port;
-        this.location = location;
-        this.agentType = agentType;
-        this.lastValidateTime = lastValidateTime;
-    }
-
-    public ProxyEntity() {}
+    public Proxy() {}
 
     public String getIp() {
         return ip;
@@ -65,7 +57,7 @@ public class ProxyEntity {
 
     @Override
     public String toString() {
-        return "ProxyEntity{" + "ip='" + ip + '\'' + ", port=" + port + ", location='" + location + '\'' +
+        return "RawProxy{" + "ip='" + ip + '\'' + ", port=" + port + ", location='" + location + '\'' +
                 ", agentType='" + agentType + '\'' + ", lastValidateTime='" + lastValidateTime + '\'' + '}';
     }
 }

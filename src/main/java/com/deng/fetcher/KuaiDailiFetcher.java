@@ -1,5 +1,6 @@
 package com.deng.fetcher;
 
+import com.deng.entity.RawProxy;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,13 +18,14 @@ import java.util.List;
  * Created by hcdeng on 2017/6/29.
  * http://www.kuaidaili.com 代理爬取
  */
-public class KuaiDailiFetcher extends AbstractFetcher<List<ProxyEntity>> {
+public class KuaiDailiFetcher extends AbstractFetcher<List<RawProxy>> {
 
     private static final Logger logger = LoggerFactory.getLogger(KuaiDailiFetcher.class);
 
     private static final String BASE_URL = "http://www.kuaidaili.com/free/";
 
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     public KuaiDailiFetcher() {
         this(10);
     }
@@ -43,8 +45,8 @@ public class KuaiDailiFetcher extends AbstractFetcher<List<ProxyEntity>> {
     }
 
     @Override
-    protected List<ProxyEntity> parseHtml(String html) {
-        List<ProxyEntity> res = new ArrayList<>();
+    protected List<RawProxy> parseHtml(String html) {
+        List<RawProxy> res = new ArrayList<>();
         Document doc = Jsoup.parse(html);
         Elements tables = doc.select("tbody");
 
@@ -66,7 +68,7 @@ public class KuaiDailiFetcher extends AbstractFetcher<List<ProxyEntity>> {
                  * <td data-title="最后验证时间">2017-06-24 15:37:07</td>
                  */
 
-                ProxyEntity enity = new ProxyEntity();
+                RawProxy enity = new RawProxy();
                 enity.setIp(tds.get(0).text().trim());
                 enity.setPort(Integer.parseInt(tds.get(1).text()));
                 enity.setAgentType(tds.get(2).text().trim());

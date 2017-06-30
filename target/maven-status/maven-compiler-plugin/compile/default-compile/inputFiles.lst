@@ -1,0 +1,11 @@
+D:\workspace\Java\proxy-pool\src\main\java\com\deng\boot\Main.java
+D:\workspace\Java\proxy-pool\src\main\java\com\deng\fetcher\ProxyEntity.java
+D:\workspace\Java\proxy-pool\src\main\java\com\deng\fetcher\KuaiDailiFetcher.java
+D:\workspace\Java\proxy-pool\src\main\java\com\deng\schedule\FetchSchedule.java
+D:\workspace\Java\proxy-pool\src\main\java\com\deng\fetcher\XichiDailiFetcher.java
+D:\workspace\Java\proxy-pool\src\main\java\com\deng\fetcher\Www66IPFetcher.java
+D:\workspace\Java\proxy-pool\src\main\java\com\deng\fetcher\AbstractFetcher.java
+D:\workspace\Java\proxy-pool\src\main\java\com\deng\api\ProxyApi.java
+D:\workspace\Java\proxy-pool\src\main\java\com\deng\fetcher\GoubanjiaFetcher.java
+D:\workspace\Java\proxy-pool\src\main\java\com\deng\schedule\ValidateSchedule.java
+D:\workspace\Java\proxy-pool\src\main\java\com\deng\fetcher\Fetcher.java

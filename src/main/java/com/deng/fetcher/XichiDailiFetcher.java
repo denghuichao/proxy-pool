@@ -1,5 +1,6 @@
 package com.deng.fetcher;
 
+import com.deng.entity.RawProxy;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,7 +18,7 @@ import java.util.List;
  * Created by hcdeng on 2017/6/29.
  * http://www.xicidaili.com 代理爬取
  */
-public class XichiDailiFetcher extends AbstractFetcher<List<ProxyEntity>> {
+public class XichiDailiFetcher extends AbstractFetcher<List<RawProxy>> {
 
     private static final String BASE_URL = "http://www.xicidaili.com/";
 
@@ -40,17 +41,17 @@ public class XichiDailiFetcher extends AbstractFetcher<List<ProxyEntity>> {
 
     @Override
     protected String pageUrl() {
-        if (pageIndex <= totalPage / 2)
+        if (pageIndex <= getTotalPage() / 2)
             return BASE_URL + "nn/" + pageIndex;
         else
-            return BASE_URL + "nt/" + (pageIndex - (totalPage / 2));
+            return BASE_URL + "nt/" + (pageIndex - ( getTotalPage() / 2));
 
     }
 
     @Override
-    protected List<ProxyEntity> parseHtml(String html) {
+    protected List<RawProxy> parseHtml(String html) {
 
-        List<ProxyEntity> res = new ArrayList<>();
+        List<RawProxy> res = new ArrayList<>();
         Document doc = Jsoup.parse(html);
         Elements tables = doc.getElementById("ip_list").select("tbody");
 
@@ -85,7 +86,7 @@ public class XichiDailiFetcher extends AbstractFetcher<List<ProxyEntity>> {
                  *  </tr>
                  */
 
-                ProxyEntity enity = new ProxyEntity();
+                RawProxy enity = new RawProxy();
                 enity.setIp(tds.get(1).text().trim());
                 enity.setPort(Integer.parseInt(tds.get(2).text().trim()));
                 enity.setAgentType(tds.get(4).text().trim());

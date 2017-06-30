@@ -26,12 +26,10 @@ public abstract class AbstractFetcher<T> implements Fetcher {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractFetcher.class);
 
-
     protected int pageIndex = 1;
-    protected int totalPage = 10;
 
+    private int totalPage = 10;
     private long interval = 1000;
-
 
     public AbstractFetcher(int totalPage, long interval) {
         this.totalPage = totalPage;
@@ -75,6 +73,13 @@ public abstract class AbstractFetcher<T> implements Fetcher {
         return res;
     }
 
+
+    public int getPageIndex() {return pageIndex;}
+
+
+    public int getTotalPage() {return totalPage;}
+
+    public long getInterval() {return interval;}
 
     protected abstract String pageUrl();
 
