@@ -21,8 +21,8 @@ public class ApplicationBoot {
 
     public static void main(String[] args) {
 
-        for(Scheduler schedule : schedules)
-            schedule.schedule();
+        //for(Scheduler schedule : schedules)
+         //   schedule.schedule();
 
         SpringApplication.run(ApplicationBoot.class, args);
     }

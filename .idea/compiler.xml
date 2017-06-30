@@ -21,7 +21,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
-      <module name="proxy-pool" target="1.5" />
+      <module name="proxy-pool" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
