@@ -13,6 +13,7 @@ public class ValidateScheduler extends Scheduler {
 
     @Override
     public void run() {
-
+        //MemDbUtil.clearUsefulProxys();
+        //MemDbUtil.addUsefulProxy(MemDbUtil.getAllRawProxys());
     }
 }

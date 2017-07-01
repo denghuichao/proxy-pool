@@ -1,6 +1,7 @@
 package com.deng.api;
 
-import com.deng.entity.RawProxy;
+import com.deng.dao.MemDbUtil;
+import com.deng.entity.Proxy;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,18 +28,20 @@ public class ProxyApi {
     }
 
     @GetMapping("/get")
-    public Response<RawProxy> getProxy() {
-        return new Response<>(true, "获取成功", new RawProxy());
+    public Response<Proxy> getProxy() {
+        Proxy proxy = MemDbUtil.getAUsefulProxy();
+        return new Response<>(proxy != null , proxy!=null ? "获取成功" : "获取失败", proxy);
     }
 
 
     @GetMapping("/get_all")
-    public Response<List<RawProxy>> getProxys(@RequestParam(value="num", defaultValue="1") int num){
-        return new Response<>(true, "获取成功", new ArrayList<>());
+    public Response<List<Proxy>> getProxys(@RequestParam(value="num", defaultValue="1") int num){
+       List<Proxy> list = MemDbUtil.getUsefulProxys(num);
+        return new Response<>(true, "获取成功", list);
     }
 
     @GetMapping("/query")
-    public Response<List<RawProxy>> queryProxys(@RequestParam String params){
+    public Response<List<Proxy>> queryProxys(@RequestParam String params){
         //todo query proxys by the query params
         System.out.println(params);
         return new Response<>(true, "查询成功", new ArrayList<>());
@@ -55,6 +58,7 @@ public class ProxyApi {
             return new Response(false, "输入参数不合法",null);
 
         //todo delete a unuseful proxy...
+        MemDbUtil.deleteUsefulProxy(proxy);
         return new Response(true, "删除成功", null);
     }
 }

@@ -1,5 +1,6 @@
 package com.deng.schedule;
 
+import com.deng.dao.MemDbUtil;
 import com.deng.entity.RawProxy;
 import com.deng.fetcher.*;
 
@@ -24,9 +25,14 @@ public class FetchScheduler extends Scheduler {
                         new Www66IPFetcher(10),
                         new XichiDailiFetcher(10));
 
+        MemDbUtil.clearRawProxys();
+        MemDbUtil.clearUsefulProxys();
         for (AbstractFetcher<List<RawProxy>> fetcher : fetchers) {
             List<List<RawProxy>> lists = fetcher.fetchAll();
-            //todo saving the proxys
+            for(List<RawProxy> list : lists) {
+                MemDbUtil.addRawProxys(list);
+                MemDbUtil.addUsefulProxy(list);
+            }
         }
     }
 }

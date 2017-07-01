@@ -20,10 +20,9 @@ public class ApplicationBoot {
             new ValidateScheduler(10, TimeUnit.MINUTES));
 
     public static void main(String[] args) {
-
-        //for(Scheduler schedule : schedules)
-         //   schedule.schedule();
-
         SpringApplication.run(ApplicationBoot.class, args);
+
+        for(Scheduler schedule : schedules)
+            schedule.schedule();
     }
 }
