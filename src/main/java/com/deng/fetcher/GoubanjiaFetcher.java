@@ -1,6 +1,6 @@
 package com.deng.fetcher;
 
-import com.deng.entity.RawProxy;
+import com.deng.entity.ProxyEntity;
 import com.google.common.base.Strings;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  * Created by hcdeng on 2017/6/29.
  * http://www.goubanjia.com/ 代理爬取
  */
-public class GoubanjiaFetcher extends AbstractFetcher<List<RawProxy>> {
+public class GoubanjiaFetcher extends AbstractFetcher<List<ProxyEntity>> {
 
     private static final String BASE_URL = "http://www.goubanjia.com/free/";
 
@@ -49,8 +49,8 @@ public class GoubanjiaFetcher extends AbstractFetcher<List<RawProxy>> {
     }
 
     @Override
-    protected List<RawProxy> parseHtml(String html) {
-        List<RawProxy> res = new ArrayList<>();
+    protected List<ProxyEntity> parseHtml(String html) {
+        List<ProxyEntity> res = new ArrayList<>();
         Document doc = Jsoup.parse(html);
         Elements tables = doc.select("tbody");
 
@@ -80,7 +80,7 @@ public class GoubanjiaFetcher extends AbstractFetcher<List<RawProxy>> {
                 Elements tds = tr.select("td");
                 if (tds.size() != 8) continue;
 
-                RawProxy enity = new RawProxy();
+                ProxyEntity enity = new ProxyEntity();
 
                 Element ipPort = tds.get(0);
                for(Element child : ipPort.children()){

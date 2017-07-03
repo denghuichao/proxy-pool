@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class Scheduler implements Runnable {
 
     private final ScheduledExecutorService exec =
-            Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
+            Executors.newScheduledThreadPool(1);
 
     private final long defaultInterval;
     private final TimeUnit defaultUnit;

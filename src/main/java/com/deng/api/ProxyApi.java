@@ -1,12 +1,15 @@
 package com.deng.api;
 
-import com.deng.dao.MemDbUtil;
-import com.deng.entity.Proxy;
+import com.deng.biz.repositor.ProxyRepository;
+import com.deng.entity.ProxyEntity;
+import com.deng.utils.ProxyUtil;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import javax.inject.Inject;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hcdeng on 2017/6/29.
@@ -15,6 +18,10 @@ import java.util.List;
 @EnableAutoConfiguration
 @RequestMapping("/api")
 public class ProxyApi {
+
+    @Inject
+    private ProxyRepository proxyRepository;
+
     private static final String API_LIST =
             "get: get an usable proxy\n"+
             "refresh: refresh proxy pool\n"+
@@ -28,23 +35,31 @@ public class ProxyApi {
     }
 
     @GetMapping("/get")
-    public Response<Proxy> getProxy() {
-        Proxy proxy = MemDbUtil.getAUsefulProxy();
-        return new Response<>(proxy != null , proxy!=null ? "获取成功" : "获取失败", proxy);
+    public Response getProxy() {
+        ProxyEntity proxy = proxyRepository.getRandomly();
+        return new Response(proxy != null , proxy!=null ? "获取成功" : "获取失败", proxy);
     }
 
 
-    @GetMapping("/get_all")
-    public Response<List<Proxy>> getProxys(@RequestParam(value="num", defaultValue="1") int num){
-       List<Proxy> list = MemDbUtil.getUsefulProxys(num);
-        return new Response<>(true, "获取成功", list);
+    @GetMapping("/get_list")
+    public Response getProxys(@RequestParam(value="num", defaultValue="1") int num){
+       List<ProxyEntity> list = proxyRepository.getList(num);
+        return new Response(true, "获取成功", list);
     }
 
-    @GetMapping("/query")
-    public Response<List<Proxy>> queryProxys(@RequestParam String params){
-        //todo query proxys by the query params
-        System.out.println(params);
-        return new Response<>(true, "查询成功", new ArrayList<>());
+
+    @GetMapping("verify")
+    public Response verifyProxy(@RequestParam String proxy){
+        if(proxy == null || !proxy.matches("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+"))
+            return new Response(false, "输入参数不合法",null);
+
+        boolean useful = ProxyUtil.verifyProxy(proxy);
+        if(!useful)proxyRepository.deleteByKey(proxy);
+        Map<String, Object> map = new HashedMap();
+        map.put("proxy", proxy);
+        map.put("useful", useful);
+
+        return new Response(true, "验证成功", map);
     }
 
     @GetMapping("/refresh")
@@ -58,7 +73,7 @@ public class ProxyApi {
             return new Response(false, "输入参数不合法",null);
 
         //todo delete a unuseful proxy...
-        MemDbUtil.deleteUsefulProxy(proxy);
+        proxyRepository.deleteByKey(proxy);
         return new Response(true, "删除成功", null);
     }
 }

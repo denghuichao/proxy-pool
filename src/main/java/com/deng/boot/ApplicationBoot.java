@@ -2,7 +2,7 @@ package com.deng.boot;
 
 import com.deng.schedule.FetchScheduler;
 import com.deng.schedule.Scheduler;
-import com.deng.schedule.ValidateScheduler;
+import com.deng.schedule.VerifyScheduler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class ApplicationBoot {
     private static final List<Scheduler> schedules = Arrays.asList(
             new FetchScheduler(30, TimeUnit.MINUTES),
-            new ValidateScheduler(10, TimeUnit.MINUTES));
+            new VerifyScheduler(10, TimeUnit.MINUTES));
 
     public static void main(String[] args) {
         SpringApplication.run(ApplicationBoot.class, args);

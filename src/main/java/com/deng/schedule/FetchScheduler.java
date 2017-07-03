@@ -1,7 +1,6 @@
 package com.deng.schedule;
 
-import com.deng.dao.MemDbUtil;
-import com.deng.entity.RawProxy;
+import com.deng.entity.ProxyEntity;
 import com.deng.fetcher.*;
 
 import java.util.Arrays;
@@ -19,19 +18,17 @@ public class FetchScheduler extends Scheduler {
 
     @Override
     public void run() {
-        List<AbstractFetcher<List<RawProxy>>> fetchers =
+        List<AbstractFetcher<List<ProxyEntity>>> fetchers =
                 Arrays.asList(new GoubanjiaFetcher(10),
                         new KuaiDailiFetcher(10),
                         new Www66IPFetcher(10),
                         new XichiDailiFetcher(10));
 
-        MemDbUtil.clearRawProxys();
-        MemDbUtil.clearUsefulProxys();
-        for (AbstractFetcher<List<RawProxy>> fetcher : fetchers) {
-            List<List<RawProxy>> lists = fetcher.fetchAll();
-            for(List<RawProxy> list : lists) {
-                MemDbUtil.addRawProxys(list);
-                MemDbUtil.addUsefulProxy(list);
+
+        for (AbstractFetcher<List<ProxyEntity>> fetcher : fetchers) {
+            List<List<ProxyEntity>> lists = fetcher.fetchAll();
+            for(List<ProxyEntity> list : lists) {
+                ProxyVerifier.verifyAndUpdateAll(list);
             }
         }
     }

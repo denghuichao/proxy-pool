@@ -1,7 +1,7 @@
 package com.deng.fetcher;
 
 
-import com.deng.entity.RawProxy;
+import com.deng.entity.ProxyEntity;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,7 +19,7 @@ import java.util.List;
  * Created by hcdeng on 2017/6/29.
  * http://www.66ip.cn 代理爬取
  */
-public class Www66IPFetcher extends AbstractFetcher<List<RawProxy>> {
+public class Www66IPFetcher extends AbstractFetcher<List<ProxyEntity>> {
 
     private static final Logger logger = LoggerFactory.getLogger(Www66IPFetcher.class);
 
@@ -47,9 +47,9 @@ public class Www66IPFetcher extends AbstractFetcher<List<RawProxy>> {
         return url;
     }
 
-    protected List<RawProxy> parseHtml(String html) {
+    protected List<ProxyEntity> parseHtml(String html) {
 
-        List<RawProxy> res = new ArrayList<>();
+        List<ProxyEntity> res = new ArrayList<>();
         Document doc = Jsoup.parse(html);
         Elements tables = doc.select("tbody");
 
@@ -68,7 +68,7 @@ public class Www66IPFetcher extends AbstractFetcher<List<RawProxy>> {
                  * <td>高匿代理</td>
                  * <td>2017年06月29日00时 验证</td>
                  */
-                RawProxy enity = new RawProxy();
+                ProxyEntity enity = new ProxyEntity();
                 enity.setIp(tds.get(0).text().trim());
                 enity.setPort(Integer.parseInt(tds.get(1).text()));
                 enity.setLocation(tds.get(2).text().trim());

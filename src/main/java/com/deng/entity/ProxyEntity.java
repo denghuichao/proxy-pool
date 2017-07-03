@@ -5,15 +5,16 @@ import java.util.Date;
 /**
  * Created by hcdeng on 2017/6/30.
  */
-public abstract class Proxy {
+public  class ProxyEntity {
     //ip	端口号	代理位置	代理类型	验证时间
     private String ip;
     private int port;
     private String location;
     private String agentType;
     private Date lastValidateTime;
+    private boolean useable;
 
-    public Proxy() {}
+    public ProxyEntity() {}
 
     public String getIp() {
         return ip;
@@ -55,6 +56,17 @@ public abstract class Proxy {
         this.lastValidateTime = lastValidateTime;
     }
 
+    public boolean isUseable() {
+        return useable;
+    }
+
+    public void setUseable(boolean useable) {
+        this.useable = useable;
+    }
+
+    public String getKey(){
+        return getIp()+":"+getPort();
+    }
     @Override
     public String toString() {
         return "RawProxy{" + "ip='" + ip + '\'' + ", port=" + port + ", location='" + location + '\'' +
