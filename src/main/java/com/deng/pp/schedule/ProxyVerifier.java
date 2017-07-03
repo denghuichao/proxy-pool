@@ -4,7 +4,6 @@ import com.deng.pp.db.repositor.ProxyRepository;
 import com.deng.pp.entity.ProxyEntity;
 import com.deng.pp.utils.ProxyUtil;
 
-import javax.inject.Inject;
 import java.util.Collection;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ExecutorService;
@@ -15,9 +14,6 @@ import java.util.concurrent.LinkedBlockingDeque;
  * Created by hcdeng on 17-7-3.
  */
 public class ProxyVerifier{
-
-    @Inject
-    private static ProxyRepository usefulProxyRepository;
 
     private static final ExecutorService EXEC = Executors.newFixedThreadPool(2);
 
@@ -44,8 +40,8 @@ public class ProxyVerifier{
                 ProxyEntity proxy = PROXYS.take();
                 boolean useful = ProxyUtil.verifyProxy(proxy);
                 if(useful)
-                    usefulProxyRepository.save(proxy);
-                else usefulProxyRepository.delete(proxy);
+                    ProxyRepository.getInstance().save(proxy);
+                else ProxyRepository.getInstance().delete(proxy);
             }catch (InterruptedException e){
 
             }

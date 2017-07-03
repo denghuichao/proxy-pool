@@ -1,17 +1,22 @@
 package com.deng.pp.db.repositor;
 
+import com.deng.pp.db.RedisConfiguration;
 import com.deng.pp.entity.ProxyEntity;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import javax.inject.Inject;
 import java.util.*;
 
 /**
  * Created by hcdeng on 17-7-3.
  */
+
 public  class ProxyRepository {
-    @Inject
-    private RedisTemplate<String, ProxyEntity> redisTemplate;
+
+    private static final ProxyRepository REPOSITORY = new ProxyRepository();
+
+    public static ProxyRepository getInstance(){return REPOSITORY;}
+
+    private static final  RedisTemplate<String, ProxyEntity> redisTemplate = RedisConfiguration.getRedisTemplate();
 
     public void save(ProxyEntity proxy) {
         redisTemplate.opsForValue().set(proxy.getKey(), proxy);

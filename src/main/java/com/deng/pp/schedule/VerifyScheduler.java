@@ -3,7 +3,6 @@ package com.deng.pp.schedule;
 import com.deng.pp.db.repositor.ProxyRepository;
 import com.deng.pp.entity.ProxyEntity;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -12,8 +11,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class VerifyScheduler extends Scheduler {
 
-    @Inject
-    private ProxyRepository usefulProxyRepository;
 
     public VerifyScheduler(long defaultInterval, TimeUnit defaultUnit) {
         super(defaultInterval, defaultUnit);
@@ -21,7 +18,7 @@ public class VerifyScheduler extends Scheduler {
 
     @Override
     public void run() {
-        List<ProxyEntity> proxys = usefulProxyRepository.getAll();
+        List<ProxyEntity> proxys = ProxyRepository.getInstance().getAll();
         ProxyVerifier.verifyAndUpdateAll(proxys);
     }
 }

@@ -7,7 +7,6 @@ import org.apache.commons.collections.map.HashedMap;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
@@ -18,9 +17,6 @@ import java.util.Map;
 @EnableAutoConfiguration
 @RequestMapping("/api")
 public class ProxyApi {
-
-    @Inject
-    private ProxyRepository proxyRepository;
 
     private static final String API_LIST =
             "get: get an usable proxy\n"+
@@ -36,14 +32,14 @@ public class ProxyApi {
 
     @GetMapping("/get")
     public Response getProxy() {
-        ProxyEntity proxy = proxyRepository.getRandomly();
+        ProxyEntity proxy = ProxyRepository.getInstance().getRandomly();
         return new Response(proxy != null , proxy!=null ? "获取成功" : "获取失败", proxy);
     }
 
 
     @GetMapping("/get_list")
     public Response getProxys(@RequestParam(value="num", defaultValue="1") int num){
-       List<ProxyEntity> list = proxyRepository.getList(num);
+       List<ProxyEntity> list = ProxyRepository.getInstance().getList(num);
         return new Response(true, "获取成功", list);
     }
 
@@ -54,7 +50,7 @@ public class ProxyApi {
             return new Response(false, "输入参数不合法",null);
 
         boolean useful = ProxyUtil.verifyProxy(proxy);
-        if(!useful)proxyRepository.deleteByKey(proxy);
+        if(!useful)ProxyRepository.getInstance().deleteByKey(proxy);
         Map<String, Object> map = new HashedMap();
         map.put("proxy", proxy);
         map.put("useful", useful);
@@ -73,7 +69,7 @@ public class ProxyApi {
             return new Response(false, "输入参数不合法",null);
 
         //todo delete a unuseful proxy...
-        proxyRepository.deleteByKey(proxy);
+        ProxyRepository.getInstance().deleteByKey(proxy);
         return new Response(true, "删除成功", null);
     }
 }

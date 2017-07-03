@@ -2,8 +2,6 @@ package com.deng.pp.db;
 
 import com.deng.pp.entity.ProxyEntity;
 import com.deng.pp.utils.PropsUtil;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JacksonJsonRedisSerializer;
@@ -17,12 +15,16 @@ import java.util.Properties;
 /**
  * Created by hcdeng on 17-7-3.
  */
-@Configuration
-public class DatabaseConfiguration {
+public class RedisConfiguration {
 
     private static final Properties REDIS_PROPS = PropsUtil.loadProps("redis.properties");
 
-    @Bean
+    private static final RedisConfiguration config = new RedisConfiguration();
+
+    public static RedisTemplate<String, ProxyEntity> getRedisTemplate(){
+        return config.redisTemplate();
+    }
+
     public JedisConnectionFactory jedisConnFactory() {
         try {
             String redistogoUrl = REDIS_PROPS.getProperty("redis.url");
@@ -44,19 +46,15 @@ public class DatabaseConfiguration {
         }
     }
 
-    @Bean
     public StringRedisSerializer stringRedisSerializer() {
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         return stringRedisSerializer;
     }
 
-    @Bean
     public JacksonJsonRedisSerializer<ProxyEntity> jacksonJsonRedisJsonSerializer() {
-        JacksonJsonRedisSerializer<ProxyEntity> jacksonJsonRedisJsonSerializer = new JacksonJsonRedisSerializer<>(ProxyEntity.class);
-        return jacksonJsonRedisJsonSerializer;
+        return new JacksonJsonRedisSerializer<>(ProxyEntity.class);
     }
 
-    @Bean
     public RedisTemplate<String, ProxyEntity> redisTemplate() {
         RedisTemplate<String, ProxyEntity> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(jedisConnFactory());
