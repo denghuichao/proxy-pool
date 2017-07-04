@@ -50,7 +50,7 @@ public abstract class AbstractFetcher<T> implements Fetcher {
             for (String[] head : HEADERS) {
                 connection.header(head[0], head[1]);
             }
-            connection.timeout(10000).followRedirects(true);
+            connection.timeout(4000).followRedirects(true);
             html = connection.execute().parse().html();//执行
         } catch (IOException e) {
             logger.info("fetch page error: " + e.getMessage());
@@ -98,5 +98,4 @@ public abstract class AbstractFetcher<T> implements Fetcher {
     public  interface Consumer<T>{
         void consume(T t);
     }
-
 }

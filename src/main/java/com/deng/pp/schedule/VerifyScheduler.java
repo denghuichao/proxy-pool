@@ -15,7 +15,6 @@ public class VerifyScheduler extends Scheduler {
 
     private static final Logger logger = LoggerFactory.getLogger(VerifyScheduler.class);
 
-
     public VerifyScheduler(long defaultInterval, TimeUnit defaultUnit) {
         super(defaultInterval, defaultUnit);
     }

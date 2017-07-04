@@ -49,7 +49,7 @@ public class ProxyUtil {
             System.setProperty("http.proxyHost", ip);
             System.setProperty("http.proxyPort", String.valueOf(port));
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setConnectTimeout(20 * 1000);
+            connection.setConnectTimeout(4 * 1000);
             int rCode = connection.getResponseCode();
             useful =  rCode == 200;
         }catch (IOException e1){

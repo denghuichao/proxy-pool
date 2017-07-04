@@ -16,35 +16,37 @@ import java.util.concurrent.LinkedBlockingDeque;
 /**
  * Created by hcdeng on 17-7-3.
  */
-public class ProxyVerifier{
+public class ProxyVerifier {
 
-    private static final int THREAD_NUMS = 2;
+    private static final int THREAD_NUMS = 4;
 
     private static final ExecutorService EXEC = Executors.newFixedThreadPool(THREAD_NUMS);
 
-    private  static final BlockingDeque<ProxyEntity> PROXYS = new LinkedBlockingDeque<>();
+    private static final BlockingDeque<ProxyEntity> PROXYS = new LinkedBlockingDeque<>(100000);
 
     private static final Logger logger = LoggerFactory.getLogger(ProxyVerifier.class);
 
-    static {start();}
+    static {
+        start();
+    }
 
-    public static void verifyAndUpdate(ProxyEntity proxy){
-        try{
+    public static void verifyAndUpdate(ProxyEntity proxy) {
+        try {
             PROXYS.put(proxy);
-        }catch (InterruptedException e){}
+        } catch (InterruptedException e) {
+        }
     }
 
-    public static void verifyAndUpdateAll(Collection<ProxyEntity> proxys){
-        for(ProxyEntity p : proxys)
-            try{
+    public static void verifyAndUpdateAll(Collection<ProxyEntity> proxys) {
+        for (ProxyEntity p : proxys)
+            try {
                 PROXYS.put(p);
-            }catch (InterruptedException e){}
+            } catch (InterruptedException e) {}
     }
 
-    private static void start(){
-        logger.info("verifying threads starting....");
-        for(int i = 0; i < THREAD_NUMS; i++){
-            EXEC.execute(()-> {
+    private static void start() {
+        for(int i = 0; i < THREAD_NUMS; i++) {
+            EXEC.execute(() -> {
                 while (true) {
                     try {
                         ProxyEntity proxy = PROXYS.take();
@@ -53,7 +55,7 @@ public class ProxyVerifier{
                             ProxyRepository.getInstance().save(proxy);
                         else ProxyRepository.getInstance().delete(proxy);
                     } catch (InterruptedException e) {
-                        logger.info("exception when verifying proxy: "+e.getMessage());
+                        logger.info("exception when verifying proxy: " + e.getMessage());
                     }
                 }
             });

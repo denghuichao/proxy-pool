@@ -13,11 +13,13 @@ import java.util.*;
  */
 public  class ProxyRepository {
 
-    private static final ProxyRepository REPOSITORY = new ProxyRepository();
+    private static  ProxyRepository REPOSITORY = new ProxyRepository();
 
     public static ProxyRepository getInstance(){return REPOSITORY;}
 
-    private ProxyRepository(){}
+    private ProxyRepository(){
+        this.deleteAll();
+    }
 
     private RedisTemplate<String, ProxyEntity> redisTemplate = RedisConfiguration.getRedisTemplate();
 
