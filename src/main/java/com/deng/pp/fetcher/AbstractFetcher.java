@@ -73,6 +73,16 @@ public abstract class AbstractFetcher<T> implements Fetcher {
         return res;
     }
 
+    public void fetchAll(Consumer<T> comsumer) {
+        while (hasNextPage()) {
+            String html = nextPage();
+            comsumer.consume(parseHtml(html));
+            try {
+                Thread.sleep(interval);
+            }catch (InterruptedException e){}
+        }
+    }
+
 
     public int getPageIndex() {return pageIndex;}
 
@@ -84,4 +94,9 @@ public abstract class AbstractFetcher<T> implements Fetcher {
     protected abstract String pageUrl();
 
     protected abstract T parseHtml(String html);
+
+    public  interface Consumer<T>{
+        void consume(T t);
+    }
+
 }

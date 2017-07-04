@@ -2,24 +2,29 @@ package com.deng.pp.db.repositor;
 
 import com.deng.pp.db.RedisConfiguration;
 import com.deng.pp.entity.ProxyEntity;
+import com.google.common.base.Strings;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 /**
  * Created by hcdeng on 17-7-3.
  */
-
 public  class ProxyRepository {
 
     private static final ProxyRepository REPOSITORY = new ProxyRepository();
 
     public static ProxyRepository getInstance(){return REPOSITORY;}
 
-    private static final  RedisTemplate<String, ProxyEntity> redisTemplate = RedisConfiguration.getRedisTemplate();
+    private ProxyRepository(){}
+
+    private RedisTemplate<String, ProxyEntity> redisTemplate = RedisConfiguration.getRedisTemplate();
 
     public void save(ProxyEntity proxy) {
-        redisTemplate.opsForValue().set(proxy.getKey(), proxy);
+        proxy.setUsable(true);
+        proxy.setLastValidateTime(new Date());
+        redisTemplate.opsForValue().set(getKey(proxy), proxy);
     }
 
 
@@ -32,7 +37,8 @@ public  class ProxyRepository {
     }
 
     public ProxyEntity getRandomly(){
-        return getByKey(redisTemplate.randomKey());
+        String key = redisTemplate.randomKey();
+        return Strings.isNullOrEmpty(key) ? null : getByKey(key);
     }
 
     public List<ProxyEntity> getList(int num){
@@ -54,7 +60,7 @@ public  class ProxyRepository {
     }
 
     public void delete(ProxyEntity b) {
-        deleteByKey(b.getKey());
+        deleteByKey(getKey(b));
     }
 
     public void delete(String ip, int port) {
@@ -62,7 +68,8 @@ public  class ProxyRepository {
     }
 
     public void deleteByKey(String key) {
-        redisTemplate.opsForValue().getOperations().delete(key);
+        if(!Strings.isNullOrEmpty(key))
+            redisTemplate.opsForValue().getOperations().delete(key);
     }
 
     public void deleteAll() {
@@ -72,5 +79,9 @@ public  class ProxyRepository {
         while(it.hasNext()){
             redisTemplate.opsForValue().getOperations().delete(it.next());
         }
+    }
+
+    private static String getKey(ProxyEntity proxy){
+        return proxy.getIp()+":"+proxy.getPort();
     }
 }

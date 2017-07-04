@@ -58,11 +58,6 @@ public class ProxyApi {
         return new Response(true, "验证成功", map);
     }
 
-    @GetMapping("/refresh")
-    public Response refreshProxys(){
-        return new Response(true, "刷新请求已受理",null);
-    }
-
     @GetMapping("/delete")
     public Response deleteProxy(@RequestParam String proxy){
         if(proxy == null || !proxy.matches("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+"))
@@ -70,6 +65,6 @@ public class ProxyApi {
 
         //todo delete a unuseful proxy...
         ProxyRepository.getInstance().deleteByKey(proxy);
-        return new Response(true, "删除成功", null);
+        return new Response(true, "删除成功", proxy);
     }
 }

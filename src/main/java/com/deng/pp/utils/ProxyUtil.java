@@ -1,6 +1,9 @@
 package com.deng.pp.utils;
 
 import com.deng.pp.entity.ProxyEntity;
+import com.deng.pp.fetcher.GoubanjiaFetcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.*;
@@ -10,7 +13,10 @@ import java.net.*;
  */
 public class ProxyUtil {
 
-    private static final String VERIFY_URL = "https://www.baidu.com/";
+    private static final Logger logger = LoggerFactory.getLogger(ProxyUtil.class);
+
+
+    private static final String VERIFY_URL = "http://www.baidu.com/";
 
 
     public static boolean verifyProxy(ProxyEntity proxy){
@@ -36,18 +42,23 @@ public class ProxyUtil {
      * @return
      */
     public static boolean verifyProxy(String ip, int port ){
+        boolean useful;
         try {
             URL url = new URL(VERIFY_URL);
             InetSocketAddress addr = new InetSocketAddress(ip, port);
-            Proxy p = new Proxy(Proxy.Type.HTTP, addr);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection(p);// 设置代理访问
+            System.setProperty("http.proxyHost", ip);
+            System.setProperty("http.proxyPort", String.valueOf(port));
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(20 * 1000);
             int rCode = connection.getResponseCode();
-            return  rCode == 200;
+            useful =  rCode == 200;
         }catch (IOException e1){
-            return false;
+            logger.warn(String.format("verify proxy %s:%d exception: "+e1.getMessage(),ip, port));
+            useful = false;
         }
+
+        logger.info(String.format("verify proxy %s:%d useful: "+useful, ip, port));
+
+        return useful;
     }
-
-
 }

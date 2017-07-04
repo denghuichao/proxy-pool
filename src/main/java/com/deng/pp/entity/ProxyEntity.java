@@ -65,9 +65,7 @@ public  class ProxyEntity implements Serializable{
         this.usable = usable;
     }
 
-    public String getKey(){
-        return getIp()+":"+getPort();
-    }
+
     @Override
     public String toString() {
         return "RawProxy{" + "ip='" + ip + '\'' + ", port=" + port + ", location='" + location + '\'' +

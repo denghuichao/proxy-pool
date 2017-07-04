@@ -3,6 +3,9 @@ package com.deng.pp.schedule;
 import com.deng.pp.db.repositor.ProxyRepository;
 import com.deng.pp.entity.ProxyEntity;
 import com.deng.pp.utils.ProxyUtil;
+import com.fasterxml.jackson.annotation.JacksonInject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.concurrent.BlockingDeque;
@@ -15,9 +18,13 @@ import java.util.concurrent.LinkedBlockingDeque;
  */
 public class ProxyVerifier{
 
-    private static final ExecutorService EXEC = Executors.newFixedThreadPool(2);
+    private static final int THREAD_NUMS = 2;
+
+    private static final ExecutorService EXEC = Executors.newFixedThreadPool(THREAD_NUMS);
 
     private  static final BlockingDeque<ProxyEntity> PROXYS = new LinkedBlockingDeque<>();
+
+    private static final Logger logger = LoggerFactory.getLogger(ProxyVerifier.class);
 
     static {start();}
 
@@ -35,16 +42,21 @@ public class ProxyVerifier{
     }
 
     private static void start(){
-        while(true){
-            try {
-                ProxyEntity proxy = PROXYS.take();
-                boolean useful = ProxyUtil.verifyProxy(proxy);
-                if(useful)
-                    ProxyRepository.getInstance().save(proxy);
-                else ProxyRepository.getInstance().delete(proxy);
-            }catch (InterruptedException e){
-
-            }
+        logger.info("verifying threads starting....");
+        for(int i = 0; i < THREAD_NUMS; i++){
+            EXEC.execute(()-> {
+                while (true) {
+                    try {
+                        ProxyEntity proxy = PROXYS.take();
+                        boolean useful = ProxyUtil.verifyProxy(proxy);
+                        if (useful)
+                            ProxyRepository.getInstance().save(proxy);
+                        else ProxyRepository.getInstance().delete(proxy);
+                    } catch (InterruptedException e) {
+                        logger.info("exception when verifying proxy: "+e.getMessage());
+                    }
+                }
+            });
         }
     }
 }
