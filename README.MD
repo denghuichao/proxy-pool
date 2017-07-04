@@ -42,6 +42,9 @@
   
 ![delete](https://raw.githubusercontent.com/denghuichao/proxy-pool/master/images/delete.png)
 
+### 测试地址  
+http://hcdeng.pp.ngrok.cc/api/get_list?num=5
+
 ## 写在最后
 由于能力有限,代码写的比较水,proxy-pool的功能也不完善,欢迎大家指正.如果您认为项目对您有帮助,请给个star~~
 

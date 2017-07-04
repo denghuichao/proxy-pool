@@ -22,7 +22,7 @@ public class VerifyScheduler extends Scheduler {
 
     @Override
     public void run() {
-        logger.info("fetch scheduler running...");
+        logger.info("verify scheduler running...");
         List<ProxyEntity> proxys = ProxyRepository.getInstance().getAll();
         ProxyVerifier.verifyAndUpdateAll(proxys);
     }
