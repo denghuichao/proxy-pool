@@ -19,11 +19,10 @@ import java.util.Map;
 public class ProxyApi {
 
     private static final String API_LIST =
-            "get: get an usable proxy\n"+
-            "refresh: refresh proxy pool\n"+
-            "get_all: get all proxy from proxy \n"+
-            "delete?proxy=127.0.0.1:8080': delete an unable proxy\n";
-
+            "get: get an usable proxy  "+
+            "get_list: get proxy list  "+
+            "delete?proxy=127.0.0.1:8080': delete an unable proxy " +
+            "verify: verify the status of a proxy  ";
 
     @GetMapping("/")
     public Response index(){

@@ -5,5 +5,5 @@ package com.deng.pp;
  */
 public interface Constants {
     public static final String REDIS_PROPS = "redis.properties";
-    public static final String DATABASE_PROPS = "database.properties";
+    public static final String REDIS_URL = "redis.url";
 }

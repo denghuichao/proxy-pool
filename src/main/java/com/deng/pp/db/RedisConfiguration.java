@@ -1,5 +1,6 @@
 package com.deng.pp.db;
 
+import com.deng.pp.Constants;
 import com.deng.pp.entity.ProxyEntity;
 import com.deng.pp.utils.PropsUtil;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +21,7 @@ import java.util.Properties;
  */
 public class RedisConfiguration {
 
-    private static final Properties REDIS_PROPS = PropsUtil.loadProps("redis.properties");
+    private static final Properties REDIS_PROPS = PropsUtil.loadProps(Constants.REDIS_PROPS);
 
     private static final RedisConfiguration config = new RedisConfiguration();
 
@@ -31,7 +32,7 @@ public class RedisConfiguration {
     private JedisConnectionFactory jedisConnFactory() {
         try {
 
-            String redistogoUrl = REDIS_PROPS.getProperty("redis.url");
+            String redistogoUrl = REDIS_PROPS.getProperty(Constants.REDIS_URL);
             URI redistogoUri = new URI(redistogoUrl);
 
             JedisConnectionFactory jedisConnFactory = new JedisConnectionFactory();
