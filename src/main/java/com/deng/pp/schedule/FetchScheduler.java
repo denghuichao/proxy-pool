@@ -26,17 +26,20 @@ public class FetchScheduler extends Scheduler {
         logger.info("fetch scheduler running...");
 
         List<AbstractFetcher<List<ProxyEntity>>> fetchers =
-                Arrays.asList(new GoubanjiaFetcher(10),
-                        new KuaiDailiFetcher(10),
-                        new Www66IPFetcher(10),
-                         new XichiDailiFetcher(10)
+                Arrays.asList(
+                        new KuaiDailiFetcher(16),
+                        new Www66IPFetcher(16),
+                         new XichiDailiFetcher(16),
+                        new GoubanjiaFetcher(16)
                 );
 
 
         for (AbstractFetcher<List<ProxyEntity>> fetcher : fetchers) {
             fetcher.fetchAll((list)->{
-                ProxyVerifier.verifyAndUpdateAll(list);
+                ProxyVerifier.verifyAll(list);
             });
         }
+
+        logger.info("finish fetch scheduler");
     }
 }

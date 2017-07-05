@@ -61,6 +61,10 @@ public  class ProxyRepository {
         return  getList(-1);
     }
 
+    public int getCount(){
+        return redisTemplate.keys("*").size();
+    }
+
     public void delete(ProxyEntity b) {
         deleteByKey(getKey(b));
     }
@@ -83,7 +87,9 @@ public  class ProxyRepository {
         }
     }
 
+
     private static String getKey(ProxyEntity proxy){
         return proxy.getIp()+":"+proxy.getPort();
     }
+
 }

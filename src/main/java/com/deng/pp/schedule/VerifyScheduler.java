@@ -2,6 +2,7 @@ package com.deng.pp.schedule;
 
 import com.deng.pp.db.repositor.ProxyRepository;
 import com.deng.pp.entity.ProxyEntity;
+import jdk.nashorn.internal.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,8 +22,8 @@ public class VerifyScheduler extends Scheduler {
 
     @Override
     public void run() {
-        logger.info("verify scheduler running...");
         List<ProxyEntity> proxys = ProxyRepository.getInstance().getAll();
-        ProxyVerifier.verifyAndUpdateAll(proxys);
+        logger.info("verify scheduler running, proxys:"+proxys.size());
+        ProxyVerifier.refreshAll(proxys);
     }
 }

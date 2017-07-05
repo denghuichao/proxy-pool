@@ -12,6 +12,7 @@ public abstract class Scheduler implements Runnable {
     private final ScheduledExecutorService exec =
             Executors.newScheduledThreadPool(1);
 
+
     private final long defaultInterval;
     private final TimeUnit defaultUnit;
 

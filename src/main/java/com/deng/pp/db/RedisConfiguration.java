@@ -2,7 +2,10 @@ package com.deng.pp.db;
 
 import com.deng.pp.Constants;
 import com.deng.pp.entity.ProxyEntity;
+import com.deng.pp.schedule.FetchScheduler;
 import com.deng.pp.utils.PropsUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -29,6 +32,9 @@ public class RedisConfiguration {
         return config.redisTemplate();
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(RedisConfiguration.class);
+
+
     private JedisConnectionFactory jedisConnFactory() {
         try {
 
@@ -47,7 +53,7 @@ public class RedisConfiguration {
             return jedisConnFactory;
 
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            logger.warn("error when in jedisConnFactory: "+e.getMessage());
             return null;
         }
     }

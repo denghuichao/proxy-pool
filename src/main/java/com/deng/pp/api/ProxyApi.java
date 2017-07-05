@@ -42,6 +42,12 @@ public class ProxyApi {
         return new Response(true, "获取成功", list);
     }
 
+    @GetMapping("/count")
+    public Response getCount(){
+        int count = ProxyRepository.getInstance().getCount();
+        return new Response(true, "获取成功", count);
+    }
+
 
     @GetMapping("verify")
     public Response verifyProxy(@RequestParam String proxy){
