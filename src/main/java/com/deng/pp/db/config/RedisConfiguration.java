@@ -1,13 +1,10 @@
-package com.deng.pp.db;
+package com.deng.pp.db.config;
 
 import com.deng.pp.Constants;
 import com.deng.pp.entity.ProxyEntity;
-import com.deng.pp.schedule.FetchScheduler;
 import com.deng.pp.utils.PropsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JacksonJsonRedisSerializer;

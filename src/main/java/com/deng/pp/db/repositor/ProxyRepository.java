@@ -1,10 +1,9 @@
 package com.deng.pp.db.repositor;
 
-import com.deng.pp.db.RedisConfiguration;
+import com.deng.pp.db.config.RedisConfiguration;
 import com.deng.pp.entity.ProxyEntity;
 import com.google.common.base.Strings;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Repository;
 
 import java.util.*;
 

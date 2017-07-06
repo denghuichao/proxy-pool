@@ -15,9 +15,7 @@ public class ProxyUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(ProxyUtil.class);
 
-
     private static final String VERIFY_URL = "http://www.baidu.com/";
-
 
     public static boolean verifyProxy(ProxyEntity proxy){
        if(proxy == null)return false;
