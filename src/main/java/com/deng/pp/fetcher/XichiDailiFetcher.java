@@ -53,11 +53,15 @@ public class XichiDailiFetcher extends AbstractFetcher<List<ProxyEntity>> {
 
         List<ProxyEntity> res = new ArrayList<>();
         Document doc = Jsoup.parse(html);
-        Elements tables = doc.getElementById("ip_list").select("tbody");
+        Element ipList = doc.getElementById("ip_list");
+        if(ipList == null)return res;
+
+        Elements tables = ipList.select("tbody");
+        if(tables == null)return res;
 
         for (Element table : tables) {
             Elements trs = table.select("tr");
-
+            if(trs == null)continue;
             for (int i = 1; i < trs.size(); i++) {
                 Element tr = trs.get(i);
                 Elements tds = tr.select("td");
